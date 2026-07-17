@@ -2,7 +2,7 @@
 
 > Wall jumping, wall clinging, and double jump for modern Minecraft — a revival of the classic [Wall-Jump!](https://www.curseforge.com/minecraft/mc-mods/wall-jump) by genandnic.
 
-The original Wall-Jump! brought parkour movement to over 27 million players before development stopped at Minecraft 1.18. This project rebuilds it for **Forge on Minecraft 26.2+**, keeping the mechanics that made the original great.
+The original Wall-Jump! brought parkour movement to over 27 million players before development stopped at Minecraft 1.18. This project rebuilds it for **NeoForge on Minecraft 26.2+**, keeping the mechanics that made the original great.
 
 ## Features
 
@@ -21,7 +21,7 @@ The original Wall-Jump! brought parkour movement to over 27 million players befo
 | | |
 |---|---|
 | Minecraft | 26.2 |
-| Mod loader | Forge |
+| Mod loader | NeoForge |
 | Java | 25 |
 
 ## Credits & License
