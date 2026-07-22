@@ -13,7 +13,7 @@ The original Wall-Jump! brought parkour movement to over 27 million players befo
 
 ## Download
 
-- CurseForge: [link once live]
+- CurseForge: [https://www.curseforge.com/minecraft/mc-mods/wall-jump-revived/preview]
 - Modrinth: [link once live]
 
 Or grab the latest `.jar` from the [Releases](../../releases) page.
@@ -29,7 +29,7 @@ Or grab the latest `.jar` from the [Releases](../../releases) page.
 ## Building from source
 
 ```bash
-git clone https://github.com/[username]/wall-jump-revived.git
+git clone https://github.com/Ramoz2011/wall-jump-revived.git
 cd wall-jump-revived
 ./gradlew build
 ```
