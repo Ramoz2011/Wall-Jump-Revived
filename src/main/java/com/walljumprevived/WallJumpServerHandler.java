@@ -1,8 +1,8 @@
 package com.walljumprevived;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.tags.DamageTypeTags;
@@ -17,8 +17,18 @@ public final class WallJumpServerHandler {
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    /** Remaining ticks of fall protection per player. */
-    private static final Map<UUID, Integer> GRACE = new HashMap<>();
+    /**
+     * Players who touched a wall at some point during their current airtime.
+     * Protection lasts until it is actually spent by a fall-damage check
+     * (or the player leaves play/goes to spectator/starts flying) - it is
+     * deliberately NOT cleared just because onPlayerTick sees onGround()
+     * true for a tick. Fall damage itself is decided from the CLIENT's
+     * reported on-ground flag in ServerGamePacketListenerImpl#handleMovePlayer,
+     * a different codepath than the server's own onGround() used here. Those
+     * two can disagree for a tick right as you kick off the wall, which was
+     * wiping the token before the real landing ever happened.
+     */
+    private static final Set<UUID> GRACE = ConcurrentHashMap.newKeySet();
 
     /** One-time proof in the log that this handler is actually running. */
     private static boolean announced = false;
@@ -36,27 +46,16 @@ public final class WallJumpServerHandler {
 
         UUID id = player.getUUID();
 
-        if (player.onGround() || player.isSpectator() || player.getAbilities().flying) {
+        if (player.isSpectator() || player.getAbilities().flying) {
             GRACE.remove(id);
             return;
         }
 
-        if (WallDetection.findWall(player) != null) {
-            int ticks = Config.FALL_PROTECTION_TICKS.getAsInt();
-            if (ticks > 0) {
-                GRACE.put(id, ticks);
-                player.resetFallDistance();
-            }
-            return;
-        }
+        if (player.onGround()) return;
 
-        Integer remaining = GRACE.get(id);
-        if (remaining != null) {
-            if (remaining <= 1) {
-                GRACE.remove(id);
-            } else {
-                GRACE.put(id, remaining - 1);
-            }
+        if (WallDetection.findWall(player) != null) {
+            GRACE.add(id);
+            player.resetFallDistance();
         }
     }
 
@@ -66,7 +65,7 @@ public final class WallJumpServerHandler {
         if (event.getEntity().level().isClientSide()) return;
         if (!(event.getEntity() instanceof Player player)) return;
 
-        if (GRACE.remove(player.getUUID()) != null) {
+        if (GRACE.remove(player.getUUID())) {
             event.setCanceled(true);
             LOGGER.info("Wall-Jump: cancelled fall damage for {} via LivingFallEvent (distance {})",
                     player.getName().getString(), String.format("%.1f", event.getDistance()));
@@ -79,14 +78,14 @@ public final class WallJumpServerHandler {
         if (!(event.getEntity() instanceof Player player)) return;
         if (!event.getSource().is(DamageTypeTags.IS_FALL)) return;
 
-        if (GRACE.remove(player.getUUID()) != null) {
+        if (GRACE.remove(player.getUUID())) {
             event.setCanceled(true);
             LOGGER.info("Wall-Jump: cancelled fall damage for {} via damage pipeline",
                     player.getName().getString());
         }
     }
 
-    /** Housekeeping so the map never holds on to players who left. */
+    /** Housekeeping so the set never holds on to players who left. */
     static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
         GRACE.remove(event.getEntity().getUUID());
     }

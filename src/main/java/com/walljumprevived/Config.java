@@ -34,9 +34,5 @@ public class Config {
             .comment("Vertical power of the mid-air double jump.")
             .defineInRange("doubleJumpPower", 0.5D, 0.0D, 2.0D);
 
-    public static final ModConfigSpec.IntValue FALL_PROTECTION_TICKS = BUILDER
-            .comment("How long fall damage is negated after leaving a wall, in ticks (20 ticks = 1 second). 0 = no protection.")
-            .defineInRange("fallProtectionTicks", 10, 0, 1200);
-
     static final ModConfigSpec SPEC = BUILDER.build();
 }
