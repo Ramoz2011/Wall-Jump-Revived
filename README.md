@@ -15,7 +15,6 @@ The original Wall-Jump! brought parkour movement to over 27 million players befo
 
 - CurseForge: [https://www.curseforge.com/minecraft/mc-mods/wall-jump-revived/preview]
 
-Or grab the latest `.jar` from the [Releases](../../releases) page.
 
 ## Requirements
 
