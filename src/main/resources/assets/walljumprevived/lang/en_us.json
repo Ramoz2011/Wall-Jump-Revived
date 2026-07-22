@@ -1,0 +1,15 @@
+{
+  "key.walljumprevived.cling": "Wall Cling (hold) / Wall Jump (release)",
+  "key.categories.walljumprevived.walljump": "Wall-Jump: Revived",
+
+  "walljumprevived.configuration.title": "Wall-Jump: Revived Config",
+  "walljumprevived.configuration.section.walljumprevived.client.toml": "Wall-Jump: Revived Settings",
+  "walljumprevived.configuration.section.walljumprevived.client.toml.title": "Wall-Jump: Revived Settings",
+  "walljumprevived.configuration.enableWallJump": "Enable Wall Jump",
+  "walljumprevived.configuration.enableDoubleJump": "Enable Double Jump",
+  "walljumprevived.configuration.wallSlideSpeed": "Wall Slide Speed",
+  "walljumprevived.configuration.maxClingTicks": "Max Cling Time (ticks)",
+  "walljumprevived.configuration.wallJumpHorizontal": "Wall Jump Horizontal Power",
+  "walljumprevived.configuration.wallJumpVertical": "Wall Jump Vertical Power",
+  "walljumprevived.configuration.doubleJumpPower": "Double Jump Power"
+}
